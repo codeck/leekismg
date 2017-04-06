@@ -6,7 +6,7 @@ scalaVersion := "2.11.9"
 
 val supportLibsVersion = "25.2.0"
 
-lazy val clientjs = project.in(file("mobile")).
+lazy val mobile = project.in(file("mobile")).
   enablePlugins(ScalaJSPlugin)
 
 lazy val androidLauncher =  project.in(file("platform/android")).
@@ -17,8 +17,9 @@ lazy val androidLauncher =  project.in(file("platform/android")).
     version := "0.1-SNAPSHOT",
     instrumentTestRunner := "android.support.test.runner.AndroidJUnitRunner",
     dexMaxHeap := "4g",
-    organization := "com.github.shadowsocks",
+    organization := "org.codeck",
     platformTarget := "android-25",
+    minSdkVersion := "16",
     compileOrder := CompileOrder.JavaThenScala,
     javacOptions in Compile ++= "-source" :: "1.7" :: "-target" :: "1.7" :: Nil,
     scalacOptions in Compile ++= "-target:jvm-1.7" :: "-Xexperimental" :: Nil,
