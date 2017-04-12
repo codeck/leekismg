@@ -2,18 +2,29 @@ name := "leekismg"
 
 version := "1.0"
 
-scalaVersion := "2.11.9"
-
 val supportLibsVersion = "25.2.0"
 
 lazy val root = project.in(file("."))
 
+val fullOptAndroid = Def.taskKey[File]("Generate the file given to react native")
+
 lazy val mobile = project.in(file("mobile")).
   enablePlugins(ScalaJSPlugin)
+  .settings(
+    scalaVersion := "2.12.1",
+    libraryDependencies += "com.github.japgolly.scalajs-react" %%% "core" % "1.0.0-RC2",
+    scalaJSUseMainModuleInitializer := true,
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    fullOptAndroid in Compile := {
+    val outFile = (root.base / "index.android.js")
+    IO.copyFile((fullOptJS in Compile).value.data, outFile)
+    outFile
+  })
 
 lazy val androidLauncher =  project.in(file("platform/android")).
   enablePlugins(AndroidApp).
   settings(
+    scalaVersion := "2.11.9",
     android.useSupportVectors,
     versionCode := Some(1),
     version := "0.1-SNAPSHOT",
