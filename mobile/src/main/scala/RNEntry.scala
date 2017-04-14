@@ -28,13 +28,23 @@ object React extends js.Object {
   def createElement(x :js.Any*) :js.Object = js.native
 }
 
+@js.native
+@JSImport("react-native", "NativeModules")
+object NativeModules extends js.Object {
+  val CoreSMSModule :js.Dynamic = js.native
+}
+
 object RNEntry extends js.JSApp {
 
+  var somemsg = "..."
+  NativeModules.CoreSMSModule.show((msg :String)=>somemsg = msg)
+
     override def main() :Unit = {
+
       val entry = React.createClass(lit(render = () =>
         React.createElement(View, null,
           React.createElement(Text, null, "Welcome to React Native!"),
-          React.createElement(Text, null, "To get started, edit Main.scala")
+          React.createElement(Text, null, somemsg)
         )
       ));
 

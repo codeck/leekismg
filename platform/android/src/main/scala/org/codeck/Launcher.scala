@@ -14,7 +14,10 @@ class MainApplication extends Application with ReactApplication {
   final private val mReactNativeHost = new ReactNativeHost(this) {
     override protected def getUseDeveloperSupport = BuildConfig.DEBUG
 
-    override protected def getPackages: util.List[ReactPackage] = util.Arrays.asList[ReactPackage](new MainReactPackage)
+    override protected def getPackages: util.List[ReactPackage] = util.Arrays.asList[ReactPackage](
+      new MainReactPackage,
+      new SMSPackage
+    )
   }
 
   override def getReactNativeHost: ReactNativeHost = mReactNativeHost
