@@ -39,6 +39,7 @@ lazy val androidLauncher =  project.in(file("platform/android")).
     ndkArgs := "-j" :: java.lang.Runtime.getRuntime.availableProcessors.toString :: Nil,
     resolvers += "Local react-native Repository" at (root.base / "node_modules" / "react-native" / "android").toURI.toString,
     libraryDependencies ++=
+      "com.android.support" % "multidex" % "1.0.1" ::
       "com.android.support" % "appcompat-v7" % supportLibsVersion ::
         "com.android.support.test" % "runner" % "0.5" % "androidTest" ::
         "com.android.support.test.espresso" % "espresso-core" % "2.2.2" % "androidTest" ::
@@ -46,10 +47,13 @@ lazy val androidLauncher =  project.in(file("platform/android")).
         Nil,
     useProguard := true,
     proguardScala := true,
+    dexMulti := true,
     //proguardConfig -= "-dontobfuscate",
     //proguardConfig -= "-dontoptimize",
     ////rules from https://github.com/facebook/react-native/blob/master/local-cli/templates/HelloWorld/android/app/proguard-rules.pro
-    proguardOptions ++= Seq("-keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip",
+    proguardOptions ++= Seq(
+      //for react native
+      "-keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip",
       "-keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters",
       "-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip",
       "-keep @com.facebook.proguard.annotations.DoNotStrip class *",
@@ -73,6 +77,19 @@ lazy val androidLauncher =  project.in(file("platform/android")).
       "-keep class sun.misc.Unsafe { *; }",
       "-dontwarn java.nio.file.*",
       "-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement",
-      "-dontwarn okio.**"
+      "-dontwarn okio.**",
+      //patch for stellar sdk
+      "-dontwarn org.mockito.**",
+      "-dontwarn org.apache.commons.logging.**",
+      "-dontwarn com.google.**",
+      "-dontwarn net.bytebuddy.**",
+      "-dontwarn org.glassfish.**",
+      "-dontwarn com.sun.research.ws.wadl.**",
+      "-dontwarn jersey.repackaged.com.google.**",
+      "-dontwarn javassist.**",
+      "-dontwarn javax.ws.rs.core.**",
+      "-dontwarn org.apache.http.**",
+      "-dontwarn org.objenesis.instantiator.**",
+      ""
     )
   )
