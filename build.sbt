@@ -48,6 +48,7 @@ lazy val androidLauncher =  project.in(file("platform/android")).
     useProguard := true,
     proguardScala := true,
     dexMulti := true,
+    proguardCache in Android := Nil,
     //proguardConfig -= "-dontobfuscate",
     //proguardConfig -= "-dontoptimize",
     ////rules from https://github.com/facebook/react-native/blob/master/local-cli/templates/HelloWorld/android/app/proguard-rules.pro
