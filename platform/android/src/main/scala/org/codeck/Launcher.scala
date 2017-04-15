@@ -9,6 +9,7 @@ import java.util
 
 import android.content.Context
 import android.support.multidex.MultiDex
+import com.facebook.react.bridge.ReactApplicationContext
 
 class MainApplication extends Application with ReactApplication {
   final private val mReactNativeHost = new ReactNativeHost(this) {
@@ -16,7 +17,7 @@ class MainApplication extends Application with ReactApplication {
 
     override protected def getPackages: util.List[ReactPackage] = util.Arrays.asList[ReactPackage](
       new MainReactPackage,
-      new SMSPackage
+      new SMSPackage(new ReactApplicationContext(getApplicationContext))
     )
   }
 
